@@ -3,9 +3,17 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import useStyles from "./sytles"
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 
 export const Login = (props) => {
  
+  const [state, setState] = React.useState({ email: '', password: '' });
+  const [visible, setVisible] = React.useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,18 +36,32 @@ export const Login = (props) => {
   };
 
   const harsh = useStyles();
-  
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  const handleChange = (event) => {
+		setVisible(false);
+		const name = event.target.name;
+		setState({
+			...state,
+			[name]: event.target.value,
+		});
+	};
 
   return (
     <Container className="main" component="main" maxWidth="xs" style={{ backgroundColor: "white", marginTop: "150px" }}>
-      <h2>LOGIN</h2>
+      <CssBaseline />
+      <div className={harsh.paper}>
+        <h2>LOGIN</h2>
         <div>
-        <form onSubmit={handleLogin}>
+       
+        
           <TextField fullWidth  margin="dense" 
                 id="outlined-basic"   
-                label="Email Address" 
+                label="Emloyee ID" 
                 variant="outlined" 
-                placeholder='recipient@email.com' 
+                placeholder='Eg:- 1800XX' 
                 autoFocus >
             <label htmlFor="email">Email</label>
             <input
@@ -49,15 +71,32 @@ export const Login = (props) => {
               onChange={handleEmailChange}
             />
           </TextField>
-          <TextField fullWidth  margin="dense" id="outlined-basic" label="Password" variant="outlined" type="password" >
-            <label htmlFor="password">Password</label>
-              <input
-                type="password"
+          <TextField 
+                 margin="dense" 
+                  required
+                  fullWidth  
+                  name="password"
+                  label="Password" 
+                  variant="outlined" 
+                type={showPassword ? "text" : "password"}
                 id="password"
-                value={password}
-                onChange={handlePasswordChange}
+                autoComplete="current-password"
+                value={state.password}
+                onChange={handleChange}
+                InputProps={{ // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
             />
-          </TextField>
           <Button
               type="submit"
               fullWidth
@@ -68,7 +107,8 @@ export const Login = (props) => {
             >
                  Login
             </Button>
-        </form>
+        
+      </div>
       </div>
     </Container>
   );
