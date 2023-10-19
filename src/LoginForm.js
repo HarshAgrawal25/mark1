@@ -49,6 +49,10 @@ export const Login = (props) => {
 		});
 	};
 
+  const handleSubmit = (event) =>{
+    console.log("LOGIN CLICKED"+ state.email + " "+ state.password)
+  }
+
   return (
     <Container className="main" component="main" maxWidth="xs" style={{ backgroundColor: "white", marginTop: "150px" }}>
       <CssBaseline />
@@ -57,20 +61,19 @@ export const Login = (props) => {
         <div>
        
         
-          <TextField fullWidth  margin="dense" 
-                id="outlined-basic"   
-                label="Emloyee ID" 
+          <TextField 
                 variant="outlined" 
+                fullWidth  margin="dense" 
+                required
+                name="email"
+                id="email"   
+                label="Emloyee ID" 
                 placeholder='Eg:- 1800XX' 
-                autoFocus >
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </TextField>
+                autoFocus 
+                type="employee_id"
+              value={state.email}
+              onChange={handleChange}
+          />
           <TextField 
                  margin="dense" 
                   required
@@ -103,7 +106,7 @@ export const Login = (props) => {
               variant="contained"
               color="primary"
               className={harsh.submit}
-              //onClick={handleSubmit}
+              onClick={handleSubmit}
             >
                  Login
             </Button>
